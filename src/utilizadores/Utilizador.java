@@ -11,6 +11,7 @@ package utilizadores;
  */
 public class Utilizador {
 
+    private int id;
     private String Nome;
     private int idade;
     private String telemovel;

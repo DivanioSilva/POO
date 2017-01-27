@@ -35,6 +35,7 @@ public class Secretaria {
 
     private void utilListar() {
         System.out.println("Tenho " + utilizadores.size() + " utilizadores cadastados.");
+        
         this.utilizadores.forEach(u -> System.out.println(u));
     }
 
@@ -55,8 +56,7 @@ public class Secretaria {
     //DiscCriar
     /**
      * Método para criar disciplinas
-     *
-     * @param disciplina1
+     * @param disciplina1 
      */
     public void disciplinaCriar(Disciplina disciplina1) {
 //        this.disciplina = disciplina1;
@@ -67,6 +67,7 @@ public class Secretaria {
      * Adicionar utilizador à disciplina
      *
      * @param disciplina
+     * @param aluno
      */
     public void disciplinaAddUtilizador(Disciplina disciplina, Aluno aluno) {
         this.disciplina.getAlunos().add(aluno);
