@@ -9,7 +9,10 @@ import avaliacoes.Regime;
 import disciplinas.Disciplina;
 import escola.Secretaria;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.Utilitarios;
@@ -95,6 +98,25 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
+    private void refreshAlunos() {
+        //myJlist.setListData(new String[0]);
+        //a.stream().filter(x -> x > 3).collect(Collectors.toList());
+        List<String> alunosTmp = new ArrayList<>();
+        for (Utilizador u : secretaria.getUtilizadores()) {
+            if (u.getTipo().equals(TipoUtilizador.Aluno)) {
+                alunosTmp.add(u.getNome());
+            }
+        }
+
+        String alunos[] = new String[alunosTmp.size()];
+
+        for (int i = 0; i < alunosTmp.size(); i++) {
+            alunos[i] = alunosTmp.get(i);
+        }
+
+        jListAlunos.setListData(alunos);
+    }
+
     private void usersGestaoCard() {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "utilGestaoCard");
@@ -125,14 +147,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void popularComboBoxDisciplinas(){
-        for(Disciplina d : secretaria.getDisciplinas()){
+
+    private void popularComboBoxDisciplinas() {
+        for (Disciplina d : secretaria.getDisciplinas()) {
             jComboBoxEscolherDisciplina.addItem(d.getNome());
         }
     }
-    
-    private void refreshListaDisciplinas(){
+
+    private void refreshListaDisciplinas() {
         jComboBoxEscolherDisciplina.removeAllItems();
         popularComboBoxDisciplinas();
     }
@@ -184,8 +206,9 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonAddAlunoDisciplina1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableDisciplinaAlunosInscritos = new javax.swing.JTable();
         jButtonAddAlunoDisciplina = new javax.swing.JButton();
+        jLabelDisciplinaNomeProf = new javax.swing.JLabel();
         utilizadoresGestao = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -337,7 +360,26 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane4.setViewportView(jListAlunos);
 
+        jComboBoxEscolherDisciplina.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxEscolherDisciplinaItemStateChanged(evt);
+            }
+        });
+        jComboBoxEscolherDisciplina.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jComboBoxEscolherDisciplinaMouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxEscolherDisciplinaMouseClicked(evt);
+            }
+        });
+
         jButtonAddAlunoDisciplina1.setText("Adicionar");
+        jButtonAddAlunoDisciplina1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddAlunoDisciplina1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -345,17 +387,17 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBoxEscolherDisciplina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel20)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                    .addContainerGap(82, Short.MAX_VALUE)
-                    .addComponent(jButtonAddAlunoDisciplina1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(60, 60, 60)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBoxEscolherDisciplina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButtonAddAlunoDisciplina1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,30 +410,26 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(321, 321, 321)
-                    .addComponent(jButtonAddAlunoDisciplina1, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonAddAlunoDisciplina1, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Alunos inscritos na disciplina"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableDisciplinaAlunosInscritos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Aluno"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(jTableDisciplinaAlunosInscritos);
 
         jButtonAddAlunoDisciplina.setText("Remover");
+
+        jLabelDisciplinaNomeProf.setText("nomeDaDisciplina e professorResponsável");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -404,16 +442,21 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(177, 177, 177)
-                        .addComponent(jButtonAddAlunoDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonAddAlunoDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelDisciplinaNomeProf, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jLabelDisciplinaNomeProf)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonAddAlunoDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(jButtonAddAlunoDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
         );
 
@@ -818,6 +861,7 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Utilizador salvo com sucesso!", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 //            popularComboBox();
+            refreshAlunos();
             refrescarComboBoxDocentesTutores();
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(this, "Coloque um número inteiro na idade do utilizador!");
@@ -957,6 +1001,73 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonGrupoSalvarActionPerformed
 
+    private void jButtonAddAlunoDisciplina1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddAlunoDisciplina1ActionPerformed
+        //Adicionar selecionar a disciplina
+//        jLabelDisciplinaNomeProf.setText("");
+        for (Disciplina d : secretaria.getDisciplinas()) {
+            if (d.getNome() == jComboBoxEscolherDisciplina.getSelectedItem()) {
+//                jLabelDisciplinaNomeProf.setText("Disciplina: "+jComboBoxEscolherDisciplina.getSelectedItem()+". Docente: "+d.getProfResponsavel().getNome());
+                //adicionar aluno
+                for (Utilizador a : secretaria.getUtilizadores()) {
+                    if (a.getNome().equals(jListAlunos.getSelectedValue())) {
+                        d.getAlunos().add((Aluno) a);
+                    }
+                }
+            }
+
+//            d.getAlunos().forEach(a -> System.out.println(a));
+        }
+
+        addAlunosDaDisciplinaTable();
+        
+    }//GEN-LAST:event_jButtonAddAlunoDisciplina1ActionPerformed
+
+    private void jComboBoxEscolherDisciplinaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEscolherDisciplinaMouseReleased
+//        limparTabelaAlunosDisciplinas();
+//        addAlunosDaDisciplinaTable();
+//        System.out.println("Limpei a tabela dos alunos");
+    }//GEN-LAST:event_jComboBoxEscolherDisciplinaMouseReleased
+
+    private void jComboBoxEscolherDisciplinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEscolherDisciplinaMouseClicked
+        // TODO add your handling code here:
+//        limparTabelaAlunosDisciplinas();
+//        addAlunosDaDisciplinaTable();
+    }//GEN-LAST:event_jComboBoxEscolherDisciplinaMouseClicked
+
+    private void jComboBoxEscolherDisciplinaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxEscolherDisciplinaItemStateChanged
+        // TODO add your handling code here:
+//        limparTabelaAlunosDisciplinas();
+        jLabelDisciplinaNomeProf.setText("");
+        jLabelDisciplinaNomeProf.setText("Disciplina: "+jComboBoxEscolherDisciplina.getSelectedItem());
+        addAlunosDaDisciplinaTable();
+    }//GEN-LAST:event_jComboBoxEscolherDisciplinaItemStateChanged
+
+    private void addAlunosDaDisciplinaTable() {
+        limparTabelaAlunosDisciplinas();
+        DefaultTableModel modelAlunosDisciplina = (DefaultTableModel) jTableDisciplinaAlunosInscritos.getModel();
+        Object rowData[] = new Object[1];
+
+        for (Disciplina d : secretaria.getDisciplinas()) {
+//            jLabelDisciplinaNomeProf.setText("Disciplina: "+d.getNome()+". Docente: "+d.getProfResponsavel().getNome());
+            if (d.getNome() == jComboBoxEscolherDisciplina.getSelectedItem()) {
+                for (Aluno a : d.getAlunos()) {
+                    rowData[0] = a.getNome();
+                    modelAlunosDisciplina.addRow(rowData);
+                }
+            }
+        }
+    }
+
+    private void limparTabelaAlunosDisciplinas() {
+        DefaultTableModel modelAlunosDisciplina = (DefaultTableModel) jTableDisciplinaAlunosInscritos.getModel();
+
+        while (modelAlunosDisciplina.getRowCount() > 0) {
+            for (int i = 0; i < modelAlunosDisciplina.getRowCount(); i++) {
+                modelAlunosDisciplina.removeRow(i);
+            }
+        }
+    }
+
     private void refreshDisciplinas() {
 //        refreshDisciplinasTable();
         refreshDisciplinasTableRemover();
@@ -1092,6 +1203,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelDisciplinaNomeProf;
     private javax.swing.JList<String> jListAlunos;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1117,9 +1229,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinnerInicioAno;
     private javax.swing.JSpinner jSpinnerInicioDia;
     private javax.swing.JSpinner jSpinnerInicioMes;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTableDisciplinaAlunosInscritos;
     private javax.swing.JTable jTableDisciplinas;
     private javax.swing.JTextField jTextFieldCusto;
     private javax.swing.JTextField jTextFieldEmail;
