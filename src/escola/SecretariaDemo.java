@@ -10,14 +10,14 @@ import utilizadores.Utilizador;
 
 /**
  *
- * @author dcsilva
+ * @author 
  */
 public class SecretariaDemo {
     public static void main(String[] args) {
         Secretaria sec = new Secretaria();
         
         Utilizador u = new Aluno();
-        u.setNome("Div");
+        u.setNome("Teste");
         sec.utilCriar(u);
     }
 }

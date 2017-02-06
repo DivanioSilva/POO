@@ -5,6 +5,8 @@
  */
 package utilizadores;
 
+import java.util.Objects;
+
 /**
  *
  * @author author
@@ -41,6 +43,24 @@ public class Utilizador {
     @Override
     public String toString() {
         return "Utilizador{" + "Nome=" + Nome + ", idade=" + idade + ", telemovel=" + telemovel + ", email=" + email + ", morada=" + morada + ", username=" + username + ", password=" + password + ", tipo=" + tipo + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Utilizador other = (Utilizador) obj;
+        if (!Objects.equals(this.Nome, other.Nome)) {
+            return false;
+        }
+        return true;
     }
 
     public String getNome() {
@@ -105,6 +125,14 @@ public class Utilizador {
 
     public void setTipo(TipoUtilizador tipo) {
         this.tipo = tipo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

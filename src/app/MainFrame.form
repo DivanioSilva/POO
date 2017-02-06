@@ -17,6 +17,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemUtilGestao">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+G"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Gest&#xe3;o Utilizadores"/>
               </Properties>
               <Events>
@@ -25,6 +28,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemNewUser">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+C"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Criar utilizadores"/>
               </Properties>
               <Events>
@@ -33,7 +39,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDiscGrupos">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Disciplinas e Grupos"/>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+D"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Disciplinas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemDiscGruposActionPerformed"/>
@@ -41,6 +50,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDiscAddAlunos">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+A"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Disciplina - Adicionar alunos"/>
               </Properties>
               <Events>
@@ -48,11 +60,6 @@
               </Events>
             </MenuItem>
           </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
-          </Properties>
         </Menu>
       </SubComponents>
     </Menu>
@@ -317,7 +324,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonSalvar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Salvar"/>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarActionPerformed"/>
@@ -563,6 +570,8 @@
                       <Component id="jButtonDeleteSelectedUser" min="-2" pref="107" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
                       <Component id="jButton1" min="-2" pref="105" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                      <Component id="jButton2" min="-2" pref="137" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane2" pref="772" max="32767" attributes="0"/>
@@ -575,7 +584,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jButtonDeleteSelectedUser" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="jButton1" alignment="3" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="jButton2" alignment="3" min="-2" pref="71" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -612,7 +624,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="jButtonDeleteSelectedUser">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Excluir"/>
+                <Property name="text" type="java.lang.String" value="Apagar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteSelectedUserActionPerformed"/>
@@ -620,10 +632,18 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar"/>
+                <Property name="text" type="java.lang.String" value="Guardar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="CSV"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -808,7 +828,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonDisciplinaSalvar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Salvar"/>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDisciplinaSalvarActionPerformed"/>
@@ -1139,7 +1159,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonGrupoSalvar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Salvar"/>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGrupoSalvarActionPerformed"/>

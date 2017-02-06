@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.Utilitarios;
+import util.cvs.CsvManagement;
 import utilizadores.Aluno;
 import utilizadores.Professor;
 import utilizadores.TipoUtilizador;
@@ -49,17 +50,20 @@ public class MainFrame extends javax.swing.JFrame {
 //        Utilizador utilizador;
     }
 
+    /**
+     * Método para popular a lista de utilizadores
+     */
     private void popularListagem() {
         Utilizador u;
         u = new Aluno();
-        u.setNome("Divanio");
+        u.setNome("Hugo");
         u.setIdade(33);
         u.setMorada("Lisboa");
         u.setTelemovel("");
         u.setUsername("");
         u.setPassword("");
-        u.setEmail("div@ual.pt");
-        u.setTipo(TipoUtilizador.Aluno);
+        u.setEmail("hugo@ual.pt");
+//        u.setTipo(TipoUtilizador.Aluno);
         secretaria.utilCriar(u);
         u = new Professor();
         u.setNome("Paulo Cabrita");
@@ -69,7 +73,17 @@ public class MainFrame extends javax.swing.JFrame {
         u.setTelemovel("");
         u.setUsername("");
         u.setPassword("");
-        u.setTipo(TipoUtilizador.Professor);
+//        u.setTipo(TipoUtilizador.Professor);
+        secretaria.utilCriar(u);
+        u = new Aluno();
+        u.setNome("Pedro");
+        u.setIdade(27);
+        u.setMorada("Lisboa");
+        u.setTelemovel("");
+        u.setUsername("");
+        u.setPassword("");
+        u.setEmail("pedro@ual.pt");
+//        u.setTipo(TipoUtilizador.Aluno);
         secretaria.utilCriar(u);
 
         jTextFieldNomeDisciplina.setText("POO");
@@ -214,6 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jButtonDeleteSelectedUser = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         disciplinasEGrupos = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jTextFieldNomeDisciplina = new javax.swing.JTextField();
@@ -249,7 +264,6 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItemNewUser = new javax.swing.JMenuItem();
         jMenuItemDiscGrupos = new javax.swing.JMenuItem();
         jMenuItemDiscAddAlunos = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("mainPanel"); // NOI18N
@@ -319,7 +333,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, -1, -1));
         jPanel1.add(jPasswordFieldPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 220, 160, -1));
 
-        jButtonSalvar.setText("Salvar");
+        jButtonSalvar.setText("Guardar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
@@ -498,17 +512,24 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
-        jButtonDeleteSelectedUser.setText("Excluir");
+        jButtonDeleteSelectedUser.setText("Apagar");
         jButtonDeleteSelectedUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteSelectedUserActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Salvar");
+        jButton1.setText("Guardar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("CSV");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -521,6 +542,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButtonDeleteSelectedUser, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(158, 158, 158)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
         );
@@ -531,7 +554,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(utilizadoresGestaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonDeleteSelectedUser, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(utilizadoresGestaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -539,7 +564,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Adicionar disciplina"));
 
-        jButtonDisciplinaSalvar.setText("Salvar");
+        jButtonDisciplinaSalvar.setText("Guardar");
         jButtonDisciplinaSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDisciplinaSalvarActionPerformed(evt);
@@ -666,7 +691,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Adicionar grupo"));
 
-        jButtonGrupoSalvar.setText("Salvar");
+        jButtonGrupoSalvar.setText("Guardar");
         jButtonGrupoSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGrupoSalvarActionPerformed(evt);
@@ -764,6 +789,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jMenuItemUtilGestao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemUtilGestao.setText("Gestão Utilizadores");
         jMenuItemUtilGestao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -772,6 +798,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenuUtilGestao.add(jMenuItemUtilGestao);
 
+        jMenuItemNewUser.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemNewUser.setText("Criar utilizadores");
         jMenuItemNewUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -780,7 +807,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenuUtilGestao.add(jMenuItemNewUser);
 
-        jMenuItemDiscGrupos.setText("Disciplinas e Grupos");
+        jMenuItemDiscGrupos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemDiscGrupos.setText("Disciplinas");
         jMenuItemDiscGrupos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemDiscGruposActionPerformed(evt);
@@ -788,6 +816,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenuUtilGestao.add(jMenuItemDiscGrupos);
 
+        jMenuItemDiscAddAlunos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemDiscAddAlunos.setText("Disciplina - Adicionar alunos");
         jMenuItemDiscAddAlunos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -798,9 +827,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuUtilGestao);
         jMenuUtilGestao.getAccessibleContext().setAccessibleName("UtilGestao");
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -866,7 +892,7 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(this, "Coloque um número inteiro na idade do utilizador!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Deu merda! " + e);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro! " + e);
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -993,11 +1019,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButtonGrupoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGrupoSalvarActionPerformed
 
-        DefaultTableModel model2 = (DefaultTableModel) jTableDisciplinas.getModel();
-        Object rowData[] = new Object[1];
-
-        rowData[0] = "AA";
-        model2.addRow(rowData);
+//        DefaultTableModel model2 = (DefaultTableModel) jTableDisciplinas.getModel();
+//        Object rowData[] = new Object[1];
+//
+//        rowData[0] = "AA";
+//        model2.addRow(rowData);
 
     }//GEN-LAST:event_jButtonGrupoSalvarActionPerformed
 
@@ -1041,6 +1067,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabelDisciplinaNomeProf.setText("Disciplina: "+jComboBoxEscolherDisciplina.getSelectedItem());
         addAlunosDaDisciplinaTable();
     }//GEN-LAST:event_jComboBoxEscolherDisciplinaItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        CsvManagement csv = new CsvManagement(secretaria);
+        csv.salvarUtilizadores();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void addAlunosDaDisciplinaTable() {
         limparTabelaAlunosDisciplinas();
@@ -1173,6 +1204,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel disciplinaAddAlunosCard;
     private javax.swing.JPanel disciplinasEGrupos;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAddAlunoDisciplina;
     private javax.swing.JButton jButtonAddAlunoDisciplina1;
     private javax.swing.JButton jButtonDeleteSelectedUser;
@@ -1205,7 +1237,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelDisciplinaNomeProf;
     private javax.swing.JList<String> jListAlunos;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemDiscAddAlunos;
     private javax.swing.JMenuItem jMenuItemDiscGrupos;

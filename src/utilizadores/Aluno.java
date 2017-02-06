@@ -14,4 +14,12 @@ public class Aluno extends Utilizador {
     public Aluno() {
         this.setTipo(TipoUtilizador.Aluno);
     }    
+
+    public Aluno(String Nome, int idade, String telemovel, String email, String morada, String username, String password) {
+        super(Nome, idade, telemovel, email, morada, username, password);
+    }
+
+    public Aluno(String Nome) {
+        super(Nome);
+    }
 }

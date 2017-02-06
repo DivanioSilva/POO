@@ -9,7 +9,6 @@ import disciplinas.Disciplina;
 import java.util.ArrayList;
 import java.util.List;
 import utilizadores.Aluno;
-import utilizadores.Professor;
 import utilizadores.Utilizador;
 
 /**
@@ -73,6 +72,11 @@ public class Secretaria {
         this.disciplina.getAlunos().add(aluno);
     }
 
+    /**
+     * Método para remover utiliazador
+     * @param disciplina
+     * @param aluno 
+     */
     public void disciplinaRemoverUtilizador(Disciplina disciplina, Aluno aluno) {
         if (disciplina.equals(this)) {
             this.disciplina.getAlunos().remove(aluno);
@@ -80,6 +84,10 @@ public class Secretaria {
     }
 
     //DiscRemover
+    /**
+     * 
+     * @param disciplina 
+     */
     public void disciplinaDelete(Disciplina disciplina) {
         if (disciplina.equals(this)) {
             this.disciplina = null;
